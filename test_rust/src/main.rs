@@ -1,18 +1,25 @@
 use std::io;
+use std::collections::HashMap;
 
-fn addTask(){
+fn add_task(tasks: &mut HashMap<i32, String>, task_num: &mut i32){
     println!("Adding task!");
+    let mut task: String = String::new();
+    io::stdin()
+        .read_line(&mut task)
+        .expect("Unable to read Task");
+    tasks.insert(task_num, task);
+
 }
 
-fn readAll(){
+fn read_all(){
     println!("Reading all tasks!");
 }
 
-fn updateTask(){
+fn update_task(){
     println!("Updating a task!");
 }
 
-fn deleteTask(){
+fn delete_task(){
     println!("Deleting a task!");
 }
 
@@ -24,6 +31,7 @@ fn main() {
 
     println!("You entered: {}", input);*/
 
+    //Main menu
     println!("--------- To Do List ---------");
     println!("");
     println!("1. Add a task");
@@ -33,24 +41,37 @@ fn main() {
     println!("");
     println!("Choice: ");
     let mut input: String = String::new();
+    //Get line from user
     io::stdin()
         .read_line(&mut input)
         .expect("Unable to read input");
     
     println!("You chose #: {}", input);
+    //Make the choice an integer
     let choice: i32 = input.trim().parse().unwrap();
-    
+
+    let mut tasks = HashMap::<i32, String>::new();
+    let task_num: i32 = 1;
+    tasks.insert(task_num, input);
+    for(task_num, input) in & tasks{
+        println!("{task_num}, {input}")
+    }
+
     if choice == 1{
-        addTask();
+        add_task(&mut tasks, &mut task_num);
+        main();
     }
     else if choice == 2{
-        readAll();
+        read_all();
     }
     else if choice == 3{
-        updateTask();
+        update_task();
     }
     else if choice == 4{
-        deleteTask();
+        delete_task();
+    }
+    else if choice == 5{
+        main();
     }
     else{
         println!("Whoops, not sure what you want!");
